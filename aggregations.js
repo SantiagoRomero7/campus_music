@@ -275,6 +275,9 @@ db.cursos.aggregate([
 
 // 8. Detectar cursos que excedieron el cupo permitido en algún momento
 print("\n=== 8. Cursos que excedieron el cupo permitido ===");
+
+// Ejecutar la agregación directamente con forEach
+var hasResults = false;
 db.inscripciones.aggregate([
   {
     $group: {
@@ -298,6 +301,9 @@ db.inscripciones.aggregate([
   {
     $project: {
       curso: "$_id",
+      nombreCurso: { $arrayElemAt: ["$cursoInfo.id_curso", 0] },
+      instrumento: { $arrayElemAt: ["$cursoInfo.Instrumento", 0] },
+      nivel: { $arrayElemAt: ["$cursoInfo.Nivel", 0] },
       cupoPermitido: { $arrayElemAt: ["$cursoInfo.Cupo", 0] },
       totalInscritos: 1,
       exceso: { $subtract: ["$totalInscritos", { $arrayElemAt: ["$cursoInfo.Cupo", 0] }] }
@@ -306,6 +312,57 @@ db.inscripciones.aggregate([
   {
     $sort: { exceso: -1 }
   }
-]).forEach(printjson);
+]).forEach(function(doc) {
+  printjson(doc);
+  hasResults = true;
+});
+
+if (!hasResults) {
+  print("✅ Ningún curso ha excedido su cupo permitido.");
+  
+  // Mostrar los cursos con mayor ocupación
+  print("\n📊 Cursos con mayor ocupación:");
+  db.inscripciones.aggregate([
+    {
+      $group: {
+        _id: "$Curso",
+        totalInscritos: { $sum: 1 }
+      }
+    },
+    {
+      $lookup: {
+        from: "cursos",
+        localField: "_id",
+        foreignField: "id_curso",
+        as: "cursoInfo"
+      }
+    },
+    {
+      $project: {
+        curso: "$_id",
+        nombre: { $arrayElemAt: ["$cursoInfo.id_curso", 0] },
+        instrumento: { $arrayElemAt: ["$cursoInfo.Instrumento", 0] },
+        nivel: { $arrayElemAt: ["$cursoInfo.Nivel", 0] },
+        cupoPermitido: { $arrayElemAt: ["$cursoInfo.Cupo", 0] },
+        totalInscritos: 1,
+        porcentajeOcupacion: {
+          $round: [
+            { $multiply: [
+              { $divide: ["$totalInscritos", { $arrayElemAt: ["$cursoInfo.Cupo", 0] }] },
+              100
+            ]},
+            2
+          ]
+        }
+      }
+    },
+    {
+      $sort: { porcentajeOcupacion: -1 }
+    },
+    {
+      $limit: 5
+    }
+  ]).forEach(printjson);
+}
 
 print("\n=== Consultas de agregación ejecutadas exitosamente! ===");
