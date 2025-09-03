@@ -1,9 +1,17 @@
+// Selecciona la base de datos 'campus_music' para su uso.
+// Si la base de datos no existe, MongoDB la creará al insertar el primer documento.
 //use campus_music;
 
+// --- Definición de Colecciones y Validaciones ---
+
+// Crea la colección 'usuarios' con un validador de esquema JSON.
+// Esto asegura que todos los documentos insertados sigan una estructura y un formato predefinidos.
 db.createCollection("usuarios", {
     validator: {
       $jsonSchema: {
+        // El documento debe ser un objeto.
         bsonType: "object",
+        // Los siguientes campos son obligatorios.
         required: [
           "_id",
           "id_usuario",
@@ -13,12 +21,14 @@ db.createCollection("usuarios", {
           "Rol"
         ],
         properties: {
+          // Define las propiedades y sus validaciones.
           _id: {
             bsonType: "objectId",
             description: "ID único del usuario"
           },
           id_usuario: {
             bsonType: "string",
+            // El formato debe ser 'U' seguido de uno o más dígitos.
             pattern: "^U[0-9]+$",
             description: "ID del usuario que empieza por 'U' seguido de números (ej: U1)"
           },
@@ -28,15 +38,18 @@ db.createCollection("usuarios", {
           },
           Correo: {
             bsonType: "string",
+            // El formato debe ser una dirección de correo electrónico válida.
             pattern: "^.+@.+\\..+$",
             description: "Correo electrónico válido"
           },
           Contrasena: {
             bsonType: "string",
+            // La longitud mínima de la cadena es de 8 caracteres.
             minLength: 8,
             description: "Contraseña del usuario (mínimo 8 caracteres)"
           },
           Rol: {
+            // El valor debe ser uno de los elementos de la lista.
             enum: ["Administrador", "Empleado", "Estudiante"],
             description: "Rol del usuario en el sistema"
           }
@@ -45,6 +58,7 @@ db.createCollection("usuarios", {
     }
   });
   
+// Crea la colección 'estudiantes' con validación de esquema.
 db.createCollection("estudiantes", {
     validator: {
       $jsonSchema: {
@@ -66,6 +80,7 @@ db.createCollection("estudiantes", {
           },
           id_estudiante: {
             bsonType: "string",
+            // El formato debe ser 'E' seguido de uno o más dígitos.
             pattern: "^E[0-9]+$",
             description: "ID del estudiante que empieza por 'E' seguido de números (ej: E1)"
           },
@@ -75,11 +90,13 @@ db.createCollection("estudiantes", {
           },
           Cedula: {
             bsonType: "string",
+            // La cédula debe ser de 8 a 10 dígitos.
             pattern: "^[0-9]{8,10}$",
             description: "Cédula de identidad (solo números)"
           },
           Telefono: {
             bsonType: "string",
+            // El número de teléfono debe ser de 10 dígitos y empezar con '3'.
             pattern: "^[3][0-9]{9}$",
             description: "Número de teléfono colombiano (10 dígitos, inicia en 3)"
           },
@@ -94,6 +111,7 @@ db.createCollection("estudiantes", {
           },
           CursosInscritos: {
             bsonType: "array",
+            // Cada elemento del array debe ser una cadena con el formato de ID de curso.
             items: {
               bsonType: "string",
               pattern: "^C[0-9]+$",
@@ -106,6 +124,7 @@ db.createCollection("estudiantes", {
     }
   });
   
+  // Crea la colección 'profesores' con validación de esquema.
   db.createCollection("profesores", {
     validator: {
       $jsonSchema: {
@@ -150,6 +169,7 @@ db.createCollection("estudiantes", {
           },
           Experiencia: {
             bsonType: "int",
+            // El valor mínimo para la experiencia es 0.
             minimum: 0,
             description: "Años de experiencia"
           },
@@ -167,6 +187,7 @@ db.createCollection("estudiantes", {
     }
   });
   
+  // Crea la colección 'instrumentos' con validación de esquema.
   db.createCollection("instrumentos", {
     validator: {
       $jsonSchema: {
@@ -210,11 +231,13 @@ db.createCollection("estudiantes", {
           },
           Cantidad: {
             bsonType: "int",
+            // La cantidad mínima es 1.
             minimum: 1,
             description: "Cantidad total de instrumentos de este tipo"
           },
           CantidadDisponible: {
             bsonType: "int",
+            // La cantidad disponible mínima es 0.
             minimum: 0,
             description: "Cantidad disponible para reserva o uso"
           }
@@ -223,6 +246,7 @@ db.createCollection("estudiantes", {
     }
   });
   
+  // Crea la colección 'sedes' con validación de esquema.
   db.createCollection("sedes", {
     validator: {
       $jsonSchema: {
@@ -256,6 +280,7 @@ db.createCollection("estudiantes", {
     }
   });
   
+  // Crea la colección 'cursos' con validación de esquema.
   db.createCollection("cursos", {
     validator: {
       $jsonSchema: {
@@ -319,6 +344,7 @@ db.createCollection("estudiantes", {
     }
   });
   
+  // Crea la colección 'reservas' con validación de esquema.
   db.createCollection("reservas", {
     validator: {
       $jsonSchema: {
@@ -347,6 +373,7 @@ db.createCollection("estudiantes", {
             description: "ID del instrumento reservado (ej: INS1)"
           },
           Estudiante: {
+            // Este campo es un documento embebido.
             bsonType: "object",
             required: ["id_estudiante", "Nombre", "Telefono"],
             properties: {
@@ -380,6 +407,7 @@ db.createCollection("estudiantes", {
     }
   });
   
+  // Crea la colección 'inscripciones' con validación de esquema.
   db.createCollection("inscripciones", {
     validator: {
       $jsonSchema: {
@@ -438,12 +466,32 @@ db.createCollection("estudiantes", {
     }
   });
 
-  db.usuarios.createIndex({ id_usuario: 1 }, { unique: true })
-  db.usuarios.createIndex({ Correo: 1 }, { unique: true })
-  db.estudiantes.createIndex({ id_estudiante: 1 }, { unique: true })
-  db.profesores.createIndex({ id_profesor: 1 }, { unique: true })
-  db.instrumentos.createIndex({ id_instrumento: 1 }, { unique: true })
-  db.sedes.createIndex({ id_sede: 1 }, { unique: true })
-  db.cursos.createIndex({ id_curso: 1 }, { unique: true })
-  db.reservas.createIndex({ id_reserva: 1 }, { unique: true })
-  db.inscripciones.createIndex({ id_inscripcion: 1 }, { unique: true })
+// --- Creación de Índices para optimización ---
+
+// Crea índices únicos en campos de uso común para búsquedas.
+// Esto mejora el rendimiento de las consultas y previene duplicados.
+
+// Índice único en 'id_usuario' y 'Correo' en la colección 'usuarios'.
+db.usuarios.createIndex({ id_usuario: 1 }, { unique: true });
+db.usuarios.createIndex({ Correo: 1 }, { unique: true });
+
+// Índice único en 'id_estudiante' para la colección 'estudiantes'.
+db.estudiantes.createIndex({ id_estudiante: 1 }, { unique: true });
+
+// Índice único en 'id_profesor' para la colección 'profesores'.
+db.profesores.createIndex({ id_profesor: 1 }, { unique: true });
+
+// Índice único en 'id_instrumento' para la colección 'instrumentos'.
+db.instrumentos.createIndex({ id_instrumento: 1 }, { unique: true });
+
+// Índice único en 'id_sede' para la colección 'sedes'.
+db.sedes.createIndex({ id_sede: 1 }, { unique: true });
+
+// Índice único en 'id_curso' para la colección 'cursos'.
+db.cursos.createIndex({ id_curso: 1 }, { unique: true });
+
+// Índice único en 'id_reserva' para la colección 'reservas'.
+db.reservas.createIndex({ id_reserva: 1 }, { unique: true });
+
+// Índice único en 'id_inscripcion' para la colección 'inscripciones'.
+db.inscripciones.createIndex({ id_inscripcion: 1 }, { unique: true });
