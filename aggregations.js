@@ -1,19 +1,19 @@
 // 1. ¿Cuántos estudiantes se inscribieron por sede en el último mes?
-print("=== 1. Estudiantes inscritos por sede en el último mes ===");
+print("=== 1. Estudiantes inscritos por sede en el último mes (usando fechas de los datos) ===");
 db.inscripciones.aggregate([
   {
     $match: {
       Fecha: {
-        $gte: new Date(new Date().setMonth(new Date().getMonth() - 1)),
-        $lte: new Date()
+        $gte: new Date("2024-01-20"), // Último mes según tus datos
+        $lte: new Date("2024-02-20")
       }
     }
   },
   {
     $group: {
       _id: "$Sede",
-      totalEstudiantes: { $sum: 1 },
-      estudiantes: { $addToSet: "$Estudiante" }
+      totalInscripciones: { $sum: 1 },
+      estudiantesUnicos: { $addToSet: "$Estudiante" }
     }
   },
   {
@@ -27,12 +27,13 @@ db.inscripciones.aggregate([
   {
     $project: {
       sede: { $arrayElemAt: ["$sedeInfo.Ciudad", 0] },
-      totalEstudiantes: 1,
-      estudiantesUnicos: { $size: "$estudiantes" }
+      totalInscripciones: 1,
+      totalEstudiantesUnicos: { $size: "$estudiantesUnicos" },
+      estudiantes: "$estudiantesUnicos"
     }
   },
   {
-    $sort: { totalEstudiantes: -1 }
+    $sort: { totalEstudiantesUnicos: -1 }
   }
 ]).forEach(printjson);
 
