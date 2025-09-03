@@ -1,139 +1,1104 @@
-// Poblar la base de datos Campus Music con datos de prueba realistas
-// Todos los _id están en STRING para evitar problemas con ObjectId en los $lookup
-
-// ----------------- Sedes -----------------
+// 1. Insertar sedes
 db.sedes.insertMany([
-    { _id: "SED100", ciudad: "Bogotá", direccion: "Cra 10 #20-30", capacidad: 200, telefono: "6011234567" },
-    { _id: "SED200", ciudad: "Medellín", direccion: "Cll 50 #40-20", capacidad: 150, telefono: "6042345678" },
-    { _id: "SED300", ciudad: "Cali", direccion: "Av 6 #15-25", capacidad: 180, telefono: "6023456789" }
-  ]);
-  
-  // ----------------- Profesores -----------------
-  db.profesores.insertMany([
-    { _id: "PROF001", nombre: "Ana Torres", especialidad: "Piano", telefono: "3001112233", email: "ana.torres@campusmusic.com" },
-    { _id: "PROF002", nombre: "Luis Rojas", especialidad: "Guitarra", telefono: "3002223344", email: "luis.rojas@campusmusic.com" },
-    { _id: "PROF003", nombre: "Carla Pérez", especialidad: "Violín", telefono: "3003334455", email: "carla.perez@campusmusic.com" },
-    { _id: "PROF004", nombre: "Jorge Gómez", especialidad: "Canto", telefono: "3004445566", email: "jorge.gomez@campusmusic.com" },
-    { _id: "PROF005", nombre: "Marta Díaz", especialidad: "Teoría Musical", telefono: "3005556677", email: "marta.diaz@campusmusic.com" },
-    { _id: "PROF006", nombre: "Diego Herrera", especialidad: "Piano", telefono: "3006667788", email: "diego.herrera@campusmusic.com" },
-    { _id: "PROF007", nombre: "Laura Castillo", especialidad: "Guitarra", telefono: "3007778899", email: "laura.castillo@campusmusic.com" },
-    { _id: "PROF008", nombre: "Andrés López", especialidad: "Teoría Musical", telefono: "3008889900", email: "andres.lopez@campusmusic.com" },
-    { _id: "PROF009", nombre: "Paula Moreno", especialidad: "Canto", telefono: "3009990011", email: "paula.moreno@campusmusic.com" },
-    { _id: "PROF010", nombre: "Carlos Mejía", especialidad: "Violín", telefono: "3010001122", email: "carlos.mejia@campusmusic.com" }
-  ]);
-  
-  // ----------------- Cursos -----------------
-  db.cursos.insertMany([
-    // Bogotá
-    { _id: "CUR100", nombre: "Piano Básico", instrumento: "Piano", nivel: "Básico", duracion: "3 meses", cupos: 10, horario: "Lunes 4-6pm", sede_id: "SED100", profesor_id: "PROF001", precio: 200000, estado: "en ejecución" },
-    { _id: "CUR101", nombre: "Guitarra Intermedia", instrumento: "Guitarra", nivel: "Intermedio", duracion: "3 meses", cupos: 8, horario: "Martes 5-7pm", sede_id: "SED100", profesor_id: "PROF002", precio: 210000, estado: "en ejecución" },
-    { _id: "CUR102", nombre: "Violín Avanzado", instrumento: "Violín", nivel: "Avanzado", duracion: "3 meses", cupos: 6, horario: "Miércoles 6-8pm", sede_id: "SED100", profesor_id: "PROF003", precio: 220000, estado: "en ejecución" },
-    { _id: "CUR103", nombre: "Teoría Musical", instrumento: "General", nivel: "Intermedio", duracion: "3 meses", cupos: 12, horario: "Jueves 4-6pm", sede_id: "SED100", profesor_id: "PROF005", precio: 180000, estado: "en ejecución" },
-    { _id: "CUR104", nombre: "Canto Básico", instrumento: "Voz", nivel: "Básico", duracion: "3 meses", cupos: 10, horario: "Viernes 5-7pm", sede_id: "SED100", profesor_id: "PROF004", precio: 200000, estado: "en ejecución" },
-  
-    // Medellín
-    { _id: "CUR200", nombre: "Piano Intermedio", instrumento: "Piano", nivel: "Intermedio", duracion: "3 meses", cupos: 10, horario: "Lunes 3-5pm", sede_id: "SED200", profesor_id: "PROF006", precio: 210000, estado: "en ejecución" },
-    { _id: "CUR201", nombre: "Guitarra Avanzada", instrumento: "Guitarra", nivel: "Avanzado", duracion: "3 meses", cupos: 8, horario: "Martes 6-8pm", sede_id: "SED200", profesor_id: "PROF007", precio: 220000, estado: "en ejecución" },
-    { _id: "CUR202", nombre: "Violín Básico", instrumento: "Violín", nivel: "Básico", duracion: "3 meses", cupos: 12, horario: "Miércoles 4-6pm", sede_id: "SED200", profesor_id: "PROF010", precio: 200000, estado: "en ejecución" },
-    { _id: "CUR203", nombre: "Teoría Musical Avanzada", instrumento: "General", nivel: "Avanzado", duracion: "3 meses", cupos: 10, horario: "Jueves 5-7pm", sede_id: "SED200", profesor_id: "PROF008", precio: 230000, estado: "en ejecución" },
-    { _id: "CUR204", nombre: "Canto Intermedio", instrumento: "Voz", nivel: "Intermedio", duracion: "3 meses", cupos: 10, horario: "Viernes 3-5pm", sede_id: "SED200", profesor_id: "PROF009", precio: 210000, estado: "en ejecución" },
-  
-    // Cali
-    { _id: "CUR300", nombre: "Piano Avanzado", instrumento: "Piano", nivel: "Avanzado", duracion: "3 meses", cupos: 8, horario: "Lunes 4-6pm", sede_id: "SED300", profesor_id: "PROF001", precio: 230000, estado: "en ejecución" },
-    { _id: "CUR301", nombre: "Guitarra Básica", instrumento: "Guitarra", nivel: "Básico", duracion: "3 meses", cupos: 12, horario: "Martes 4-6pm", sede_id: "SED300", profesor_id: "PROF002", precio: 200000, estado: "en ejecución" },
-    { _id: "CUR302", nombre: "Violín Intermedio", instrumento: "Violín", nivel: "Intermedio", duracion: "3 meses", cupos: 10, horario: "Miércoles 5-7pm", sede_id: "SED300", profesor_id: "PROF003", precio: 210000, estado: "en ejecución" },
-    { _id: "CUR303", nombre: "Teoría Musical Básica", instrumento: "General", nivel: "Básico", duracion: "3 meses", cupos: 12, horario: "Jueves 4-6pm", sede_id: "SED300", profesor_id: "PROF005", precio: 190000, estado: "en ejecución" },
-    { _id: "CUR304", nombre: "Canto Avanzado", instrumento: "Voz", nivel: "Avanzado", duracion: "3 meses", cupos: 8, horario: "Viernes 5-7pm", sede_id: "SED300", profesor_id: "PROF004", precio: 220000, estado: "en ejecución" }
-  ]);
-  
-  // ----------------- Estudiantes -----------------
-  db.estudiantes.insertMany([
-    { _id: "EST001", nombre: "Carlos Martínez", nivel: "Básico", telefono: "3101234567", email: "carlos.martinez@email.com" },
-    { _id: "EST002", nombre: "María González", nivel: "Intermedio", telefono: "3102345678", email: "maria.gonzalez@email.com" },
-    { _id: "EST003", nombre: "Andrés Ramírez", nivel: "Avanzado", telefono: "3103456789", email: "andres.ramirez@email.com" },
-    { _id: "EST004", nombre: "Lucía Fernández", nivel: "Básico", telefono: "3104567890", email: "lucia.fernandez@email.com" },
-    { _id: "EST005", nombre: "Mateo Torres", nivel: "Intermedio", telefono: "3105678901", email: "mateo.torres@email.com" },
-    { _id: "EST006", nombre: "Sofía Morales", nivel: "Avanzado", telefono: "3106789012", email: "sofia.morales@email.com" },
-    { _id: "EST007", nombre: "Felipe Castro", nivel: "Básico", telefono: "3107890123", email: "felipe.castro@email.com" },
-    { _id: "EST008", nombre: "Valentina López", nivel: "Intermedio", telefono: "3108901234", email: "valentina.lopez@email.com" },
-    { _id: "EST009", nombre: "Sebastián Vega", nivel: "Avanzado", telefono: "3109012345", email: "sebastian.vega@email.com" },
-    { _id: "EST010", nombre: "Camila Ruiz", nivel: "Básico", telefono: "3110123456", email: "camila.ruiz@email.com" },
-    { _id: "EST011", nombre: "Daniel Ortega", nivel: "Intermedio", telefono: "3111234567", email: "daniel.ortega@email.com" },
-    { _id: "EST012", nombre: "Gabriela Soto", nivel: "Avanzado", telefono: "3112345678", email: "gabriela.soto@email.com" },
-    { _id: "EST013", nombre: "Juan Esteban Cárdenas", nivel: "Básico", telefono: "3113456789", email: "juan.cardenas@email.com" },
-    { _id: "EST014", nombre: "Isabella Peña", nivel: "Intermedio", telefono: "3114567890", email: "isabella.pena@email.com" },
-    { _id: "EST015", nombre: "Nicolás Ramírez", nivel: "Avanzado", telefono: "3115678901", email: "nicolas.ramirez@email.com" }
-  ]);
-  
-  // ----------------- Instrumentos -----------------
-  db.instrumentos.insertMany([
-    { _id: "INS001", nombre: "Guitarra Acústica", tipo: "Guitarra", estado: "disponible" },
-    { _id: "INS002", nombre: "Guitarra Eléctrica", tipo: "Guitarra", estado: "disponible" },
-    { _id: "INS003", nombre: "Piano Digital", tipo: "Piano", estado: "disponible" },
-    { _id: "INS004", nombre: "Teclado Yamaha", tipo: "Piano", estado: "disponible" },
-    { _id: "INS005", nombre: "Violín 4/4", tipo: "Violín", estado: "disponible" },
-    { _id: "INS006", nombre: "Violín 3/4", tipo: "Violín", estado: "disponible" },
-    { _id: "INS007", nombre: "Micrófono Shure", tipo: "Voz", estado: "disponible" },
-    { _id: "INS008", nombre: "Micrófono Condensador", tipo: "Voz", estado: "disponible" },
-    { _id: "INS009", nombre: "Atril", tipo: "Accesorio", estado: "disponible" },
-    { _id: "INS010", nombre: "Batería Pearl", tipo: "Percusión", estado: "disponible" },
-    { _id: "INS011", nombre: "Cajón Flamenco", tipo: "Percusión", estado: "disponible" },
-    { _id: "INS012", nombre: "Ukelele", tipo: "Cuerda", estado: "disponible" },
-    { _id: "INS013", nombre: "Bajo Eléctrico", tipo: "Cuerda", estado: "disponible" },
-    { _id: "INS014", nombre: "Flauta Dulce", tipo: "Viento", estado: "disponible" },
-    { _id: "INS015", nombre: "Saxofón", tipo: "Viento", estado: "disponible" },
-    { _id: "INS016", nombre: "Clarinete", tipo: "Viento", estado: "disponible" },
-    { _id: "INS017", nombre: "Trompeta", tipo: "Viento", estado: "disponible" },
-    { _id: "INS018", nombre: "Arpa", tipo: "Cuerda", estado: "disponible" },
-    { _id: "INS019", nombre: "Tambor", tipo: "Percusión", estado: "disponible" },
-    { _id: "INS020", nombre: "Congas", tipo: "Percusión", estado: "disponible" }
-  ]);
-  
-  // ----------------- Inscripciones -----------------
-  db.inscripciones.insertMany([
-    { _id: "INSCR001", estudiante_id: "EST001", curso_id: "CUR100", sede_id: "SED100", fecha: new Date("2025-09-01") },
-    { _id: "INSCR002", estudiante_id: "EST002", curso_id: "CUR101", sede_id: "SED100", fecha: new Date("2025-09-02") },
-    { _id: "INSCR003", estudiante_id: "EST003", curso_id: "CUR102", sede_id: "SED100", fecha: new Date("2025-09-03") },
-    { _id: "INSCR004", estudiante_id: "EST004", curso_id: "CUR103", sede_id: "SED100", fecha: new Date("2025-09-04") },
-    { _id: "INSCR005", estudiante_id: "EST005", curso_id: "CUR104", sede_id: "SED100", fecha: new Date("2025-09-05") },
-    { _id: "INSCR006", estudiante_id: "EST006", curso_id: "CUR200", sede_id: "SED200", fecha: new Date("2025-09-06") },
-    { _id: "INSCR007", estudiante_id: "EST007", curso_id: "CUR201", sede_id: "SED200", fecha: new Date("2025-09-07") },
-    { _id: "INSCR008", estudiante_id: "EST008", curso_id: "CUR202", sede_id: "SED200", fecha: new Date("2025-09-08") },
-    { _id: "INSCR009", estudiante_id: "EST009", curso_id: "CUR203", sede_id: "SED200", fecha: new Date("2025-09-09") },
-    { _id: "INSCR010", estudiante_id: "EST010", curso_id: "CUR204", sede_id: "SED200", fecha: new Date("2025-09-10") },
-    { _id: "INSCR011", estudiante_id: "EST011", curso_id: "CUR300", sede_id: "SED300", fecha: new Date("2025-09-11") },
-    { _id: "INSCR012", estudiante_id: "EST012", curso_id: "CUR301", sede_id: "SED300", fecha: new Date("2025-09-12") },
-    { _id: "INSCR013", estudiante_id: "EST013", curso_id: "CUR302", sede_id: "SED300", fecha: new Date("2025-09-13") },
-    { _id: "INSCR014", estudiante_id: "EST014", curso_id: "CUR303", sede_id: "SED300", fecha: new Date("2025-09-14") },
-    { _id: "INSCR015", estudiante_id: "EST015", curso_id: "CUR304", sede_id: "SED300", fecha: new Date("2025-09-15") },
-    { _id: "INSCR016", estudiante_id: "EST001", curso_id: "CUR200", sede_id: "SED200", fecha: new Date("2025-09-16") },
-    { _id: "INSCR017", estudiante_id: "EST002", curso_id: "CUR201", sede_id: "SED200", fecha: new Date("2025-09-17") },
-    { _id: "INSCR018", estudiante_id: "EST003", curso_id: "CUR202", sede_id: "SED200", fecha: new Date("2025-09-18") },
-    { _id: "INSCR019", estudiante_id: "EST004", curso_id: "CUR203", sede_id: "SED200", fecha: new Date("2025-09-19") },
-    { _id: "INSCR020", estudiante_id: "EST005", curso_id: "CUR204", sede_id: "SED200", fecha: new Date("2025-09-20") },
-    { _id: "INSCR021", estudiante_id: "EST006", curso_id: "CUR300", sede_id: "SED300", fecha: new Date("2025-09-21") },
-    { _id: "INSCR022", estudiante_id: "EST007", curso_id: "CUR301", sede_id: "SED300", fecha: new Date("2025-09-22") },
-    { _id: "INSCR023", estudiante_id: "EST008", curso_id: "CUR302", sede_id: "SED300", fecha: new Date("2025-09-23") },
-    { _id: "INSCR024", estudiante_id: "EST009", curso_id: "CUR303", sede_id: "SED300", fecha: new Date("2025-09-24") },
-    { _id: "INSCR025", estudiante_id: "EST010", curso_id: "CUR304", sede_id: "SED300", fecha: new Date("2025-09-25") },
-    { _id: "INSCR026", estudiante_id: "EST011", curso_id: "CUR100", sede_id: "SED100", fecha: new Date("2025-09-26") },
-    { _id: "INSCR027", estudiante_id: "EST012", curso_id: "CUR101", sede_id: "SED100", fecha: new Date("2025-09-27") },
-    { _id: "INSCR028", estudiante_id: "EST013", curso_id: "CUR102", sede_id: "SED100", fecha: new Date("2025-09-28") },
-    { _id: "INSCR029", estudiante_id: "EST014", curso_id: "CUR103", sede_id: "SED100", fecha: new Date("2025-09-29") },
-    { _id: "INSCR030", estudiante_id: "EST015", curso_id: "CUR104", sede_id: "SED100", fecha: new Date("2025-09-30") }
-  ]);
-  
-  // ----------------- Reservas de Instrumentos -----------------
-  db.reservas.insertMany([
-    { _id: "RES001", estudiante_id: "EST001", instrumento_id: "INS001", fecha: new Date("2025-09-05"), estado: "activa" },
-    { _id: "RES002", estudiante_id: "EST002", instrumento_id: "INS003", fecha: new Date("2025-09-06"), estado: "activa" },
-    { _id: "RES003", estudiante_id: "EST003", instrumento_id: "INS005", fecha: new Date("2025-09-07"), estado: "activa" },
-    { _id: "RES004", estudiante_id: "EST004", instrumento_id: "INS007", fecha: new Date("2025-09-08"), estado: "activa" },
-    { _id: "RES005", estudiante_id: "EST005", instrumento_id: "INS002", fecha: new Date("2025-09-09"), estado: "activa" },
-    { _id: "RES006", estudiante_id: "EST006", instrumento_id: "INS004", fecha: new Date("2025-09-10"), estado: "activa" },
-    { _id: "RES007", estudiante_id: "EST007", instrumento_id: "INS006", fecha: new Date("2025-09-11"), estado: "activa" },
-    { _id: "RES008", estudiante_id: "EST008", instrumento_id: "INS008", fecha: new Date("2025-09-12"), estado: "activa" },
-    { _id: "RES009", estudiante_id: "EST009", instrumento_id: "INS009", fecha: new Date("2025-09-13"), estado: "activa" },
-    { _id: "RES010", estudiante_id: "EST010", instrumento_id: "INS010", fecha: new Date("2025-09-14"), estado: "activa" }
-  ]);
-  
+  {
+    id_sede: "S1",
+    Ciudad: "Bogotá",
+    Direccion: "Carrera 15 # 88-64"
+  },
+  {
+    id_sede: "S2",
+    Ciudad: "Medellín",
+    Direccion: "Calle 10 # 40-25"
+  },
+  {
+    id_sede: "S3",
+    Ciudad: "Cali",
+    Direccion: "Avenida 6N # 23-45"
+  }
+]);
+
+// 2. Insertar instrumentos
+db.instrumentos.insertMany([
+  // Bogotá (S1)
+  {
+    id_instrumento: "INS1",
+    Tipo: "Guitarra",
+    Marca: "Yamaha",
+    Estado: "Disponible",
+    Sede: "S1",
+    Cantidad: 5,
+    CantidadDisponible: 3
+  },
+  {
+    id_instrumento: "INS2",
+    Tipo: "Piano",
+    Marca: "Kawai",
+    Estado: "Disponible",
+    Sede: "S1",
+    Cantidad: 2,
+    CantidadDisponible: 1
+  },
+  {
+    id_instrumento: "INS3",
+    Tipo: "Violín",
+    Marca: "Stentor",
+    Estado: "Mantenimiento",
+    Sede: "S1",
+    Cantidad: 3,
+    CantidadDisponible: 0
+  },
+  {
+    id_instrumento: "INS4",
+    Tipo: "Batería",
+    Marca: "Pearl",
+    Estado: "Disponible",
+    Sede: "S1",
+    Cantidad: 1,
+    CantidadDisponible: 1
+  },
+  {
+    id_instrumento: "INS5",
+    Tipo: "Flauta",
+    Marca: "Yamaha",
+    Estado: "Disponible",
+    Sede: "S1",
+    Cantidad: 4,
+    CantidadDisponible: 2
+  },
+  // Medellín (S2)
+  {
+    id_instrumento: "INS6",
+    Tipo: "Guitarra",
+    Marca: "Fender",
+    Estado: "Reservado",
+    Sede: "S2",
+    Cantidad: 4,
+    CantidadDisponible: 2
+  },
+  {
+    id_instrumento: "INS7",
+    Tipo: "Piano",
+    Marca: "Yamaha",
+    Estado: "Disponible",
+    Sede: "S2",
+    Cantidad: 3,
+    CantidadDisponible: 2
+  },
+  {
+    id_instrumento: "INS8",
+    Tipo: "Violín",
+    Marca: "Cremona",
+    Estado: "Disponible",
+    Sede: "S2",
+    Cantidad: 2,
+    CantidadDisponible: 1
+  },
+  {
+    id_instrumento: "INS9",
+    Tipo: "Batería",
+    Marca: "Tama",
+    Estado: "No Disponible",
+    Sede: "S2",
+    Cantidad: 1,
+    CantidadDisponible: 0
+  },
+  {
+    id_instrumento: "INS10",
+    Tipo: "Flauta",
+    Marca: "Gemeinhardt",
+    Estado: "Disponible",
+    Sede: "S2",
+    Cantidad: 3,
+    CantidadDisponible: 2
+  },
+  // Cali (S3)
+  {
+    id_instrumento: "INS11",
+    Tipo: "Guitarra",
+    Marca: "Ibanez",
+    Estado: "Disponible",
+    Sede: "S3",
+    Cantidad: 3,
+    CantidadDisponible: 2
+  },
+  {
+    id_instrumento: "INS12",
+    Tipo: "Piano",
+    Marca: "Casio",
+    Estado: "Disponible",
+    Sede: "S3",
+    Cantidad: 2,
+    CantidadDisponible: 1
+  },
+  {
+    id_instrumento: "INS13",
+    Tipo: "Violín",
+    Marca: "Mendini",
+    Estado: "Disponible",
+    Sede: "S3",
+    Cantidad: 2,
+    CantidadDisponible: 1
+  },
+  {
+    id_instrumento: "INS14",
+    Tipo: "Batería",
+    Marca: "Ludwig",
+    Estado: "Mantenimiento",
+    Sede: "S3",
+    Cantidad: 1,
+    CantidadDisponible: 0
+  },
+  {
+    id_instrumento: "INS15",
+    Tipo: "Flauta",
+    Marca: "Armstrong",
+    Estado: "Disponible",
+    Sede: "S3",
+    Cantidad: 4,
+    CantidadDisponible: 3
+  },
+  {
+    id_instrumento: "INS16",
+    Tipo: "Guitarra",
+    Marca: "Taylor",
+    Estado: "Disponible",
+    Sede: "S1",
+    Cantidad: 2,
+    CantidadDisponible: 1
+  },
+  {
+    id_instrumento: "INS17",
+    Tipo: "Piano",
+    Marca: "Roland",
+    Estado: "Disponible",
+    Sede: "S2",
+    Cantidad: 1,
+    CantidadDisponible: 1
+  },
+  {
+    id_instrumento: "INS18",
+    Tipo: "Violín",
+    Marca: "Yamaha",
+    Estado: "Disponible",
+    Sede: "S3",
+    Cantidad: 1,
+    CantidadDisponible: 1
+  },
+  {
+    id_instrumento: "INS19",
+    Tipo: "Batería",
+    Marca: "DW",
+    Estado: "Disponible",
+    Sede: "S1",
+    Cantidad: 1,
+    CantidadDisponible: 0
+  },
+  {
+    id_instrumento: "INS20",
+    Tipo: "Flauta",
+    Marca: "Yamaha",
+    Estado: "Disponible",
+    Sede: "S2",
+    Cantidad: 2,
+    CantidadDisponible: 1
+  }
+]);
+
+// 3. Insertar cursos
+db.cursos.insertMany([
+  // Bogotá (S1)
+  {
+    id_curso: "C1",
+    Instrumento: "INS1",
+    Nivel: "Principiante",
+    Duracion: 40,
+    Cupo: 15,
+    CuposDisponibles: 8,
+    SedeId: "S1",
+    Costo: 800000
+  },
+  {
+    id_curso: "C2",
+    Instrumento: "INS2",
+    Nivel: "Avanzado",
+    Duracion: 60,
+    Cupo: 10,
+    CuposDisponibles: 3,
+    SedeId: "S1",
+    Costo: 1200000
+  },
+  {
+    id_curso: "C3",
+    Instrumento: "INS3",
+    Nivel: "Intermedio",
+    Duracion: 50,
+    Cupo: 12,
+    CuposDisponibles: 5,
+    SedeId: "S1",
+    Costo: 950000
+  },
+  {
+    id_curso: "C4",
+    Instrumento: "INS4",
+    Nivel: "Principiante",
+    Duracion: 45,
+    Cupo: 8,
+    CuposDisponibles: 2,
+    SedeId: "S1",
+    Costo: 850000
+  },
+  {
+    id_curso: "C5",
+    Instrumento: "INS5",
+    Nivel: "Intermedio",
+    Duracion: 35,
+    Cupo: 20,
+    CuposDisponibles: 10,
+    SedeId: "S1",
+    Costo: 700000
+  },
+  // Medellín (S2)
+  {
+    id_curso: "C6",
+    Instrumento: "INS6",
+    Nivel: "Principiante",
+    Duracion: 40,
+    Cupo: 15,
+    CuposDisponibles: 7,
+    SedeId: "S2",
+    Costo: 780000
+  },
+  {
+    id_curso: "C7",
+    Instrumento: "INS7",
+    Nivel: "Avanzado",
+    Duracion: 65,
+    Cupo: 8,
+    CuposDisponibles: 2,
+    SedeId: "S2",
+    Costo: 1250000
+  },
+  {
+    id_curso: "C8",
+    Instrumento: "INS8",
+    Nivel: "Intermedio",
+    Duracion: 48,
+    Cupo: 10,
+    CuposDisponibles: 4,
+    SedeId: "S2",
+    Costo: 920000
+  },
+  {
+    id_curso: "C9",
+    Instrumento: "INS9",
+    Nivel: "Principiante",
+    Duracion: 42,
+    Cupo: 6,
+    CuposDisponibles: 1,
+    SedeId: "S2",
+    Costo: 820000
+  },
+  {
+    id_curso: "C10",
+    Instrumento: "INS10",
+    Nivel: "Avanzado",
+    Duracion: 55,
+    Cupo: 12,
+    CuposDisponibles: 5,
+    SedeId: "S2",
+    Costo: 1100000
+  },
+  // Cali (S3)
+  {
+    id_curso: "C11",
+    Instrumento: "INS11",
+    Nivel: "Principiante",
+    Duracion: 38,
+    Cupo: 18,
+    CuposDisponibles: 9,
+    SedeId: "S3",
+    Costo: 750000
+  },
+  {
+    id_curso: "C12",
+    Instrumento: "INS12",
+    Nivel: "Intermedio",
+    Duracion: 52,
+    Cupo: 10,
+    CuposDisponibles: 3,
+    SedeId: "S3",
+    Costo: 980000
+  },
+  {
+    id_curso: "C13",
+    Instrumento: "INS13",
+    Nivel: "Avanzado",
+    Duracion: 60,
+    Cupo: 8,
+    CuposDisponibles: 2,
+    SedeId: "S3",
+    Costo: 1180000
+  },
+  {
+    id_curso: "C14",
+    Instrumento: "INS14",
+    Nivel: "Principiante",
+    Duracion: 45,
+    Cupo: 7,
+    CuposDisponibles: 2,
+    SedeId: "S3",
+    Costo: 830000
+  },
+  {
+    id_curso: "C15",
+    Instrumento: "INS15",
+    Nivel: "Intermedio",
+    Duracion: 47,
+    Cupo: 15,
+    CuposDisponibles: 8,
+    SedeId: "S3",
+    Costo: 890000
+  }
+]);
+
+// 4. Insertar profesores
+db.profesores.insertMany([
+  {
+    id_profesor: "P1",
+    Nombre: "Carlos Rodríguez",
+    Correo: "carlos.rodriguez@musicacampus.com",
+    Telefono: "3101234567",
+    Especialidad: "Guitarra",
+    Experiencia: 8,
+    CursosAsignados: ["C1", "C6"]
+  },
+  {
+    id_profesor: "P2",
+    Nombre: "María González",
+    Correo: "maria.gonzalez@musicacampus.com",
+    Telefono: "3112345678",
+    Especialidad: "Piano",
+    Experiencia: 12,
+    CursosAsignados: ["C2", "C7"]
+  },
+  {
+    id_profesor: "P3",
+    Nombre: "Javier López",
+    Correo: "javier.lopez@musicacampus.com",
+    Telefono: "3123456789",
+    Especialidad: "Violín",
+    Experiencia: 6,
+    CursosAsignados: ["C3", "C8"]
+  },
+  {
+    id_profesor: "P4",
+    Nombre: "Ana Martínez",
+    Correo: "ana.martinez@musicacampus.com",
+    Telefono: "3134567890",
+    Especialidad: "Batería",
+    Experiencia: 10,
+    CursosAsignados: ["C4", "C9"]
+  },
+  {
+    id_profesor: "P5",
+    Nombre: "Pedro Sánchez",
+    Correo: "pedro.sanchez@musicacampus.com",
+    Telefono: "3145678901",
+    Especialidad: "Flauta",
+    Experiencia: 7,
+    CursosAsignados: ["C5", "C10"]
+  },
+  {
+    id_profesor: "P6",
+    Nombre: "Laura Díaz",
+    Correo: "laura.diaz@musicacampus.com",
+    Telefono: "3156789012",
+    Especialidad: "Guitarra",
+    Experiencia: 5,
+    CursosAsignados: ["C11"]
+  },
+  {
+    id_profesor: "P7",
+    Nombre: "Ricardo Torres",
+    Correo: "ricardo.torres@musicacampus.com",
+    Telefono: "3167890123",
+    Especialidad: "Piano",
+    Experiencia: 9,
+    CursosAsignados: ["C12"]
+  },
+  {
+    id_profesor: "P8",
+    Nombre: "Sofía Ramírez",
+    Correo: "sofia.ramirez@musicacampus.com",
+    Telefono: "3178901234",
+    Especialidad: "Violín",
+    Experiencia: 11,
+    CursosAsignados: ["C13"]
+  },
+  {
+    id_profesor: "P9",
+    Nombre: "Diego Herrera",
+    Correo: "diego.herrera@musicacampus.com",
+    Telefono: "3189012345",
+    Especialidad: "Batería",
+    Experiencia: 8,
+    CursosAsignados: ["C14"]
+  },
+  {
+    id_profesor: "P10",
+    Nombre: "Camila Vargas",
+    Correo: "camila.vargas@musicacampus.com",
+    Telefono: "3190123456",
+    Especialidad: "Flauta",
+    Experiencia: 6,
+    CursosAsignados: ["C15"]
+  }
+]);
+
+// 5. Insertar estudiantes
+db.estudiantes.insertMany([
+  {
+    id_estudiante: "E1",
+    Nombre: "Andrés Castillo",
+    Cedula: "12345678",
+    Telefono: "3201234567",
+    CorreoElectronico: "andres.castillo@email.com",
+    NivelMusical: "Principiante",
+    CursosInscritos: ["C1", "C6"]
+  },
+  {
+    id_estudiante: "E2",
+    Nombre: "Carolina Méndez",
+    Cedula: "23456789",
+    Telefono: "3212345678",
+    CorreoElectronico: "carolina.mendez@email.com",
+    NivelMusical: "Intermedio",
+    CursosInscritos: ["C2", "C7"]
+  },
+  {
+    id_estudiante: "E3",
+    Nombre: "Miguel Ángel Rojas",
+    Cedula: "34567890",
+    Telefono: "3223456789",
+    CorreoElectronico: "miguel.rojas@email.com",
+    NivelMusical: "Avanzado",
+    CursosInscritos: ["C3", "C8"]
+  },
+  {
+    id_estudiante: "E4",
+    Nombre: "Daniela Pérez",
+    Cedula: "45678901",
+    Telefono: "3234567890",
+    CorreoElectronico: "daniela.perez@email.com",
+    NivelMusical: "Principiante",
+    CursosInscritos: ["C4", "C9"]
+  },
+  {
+    id_estudiante: "E5",
+    Nombre: "Juan David Gómez",
+    Cedula: "56789012",
+    Telefono: "3245678901",
+    CorreoElectronico: "juan.gomez@email.com",
+    NivelMusical: "Intermedio",
+    CursosInscritos: ["C5", "C10"]
+  },
+  {
+    id_estudiante: "E6",
+    Nombre: "Valentina Cruz",
+    Cedula: "67890123",
+    Telefono: "3256789012",
+    CorreoElectronico: "valentina.cruz@email.com",
+    NivelMusical: "Avanzado",
+    CursosInscritos: ["C11"]
+  },
+  {
+    id_estudiante: "E7",
+    Nombre: "Santiago Morales",
+    Cedula: "78901234",
+    Telefono: "3267890123",
+    CorreoElectronico: "santiago.morales@email.com",
+    NivelMusical: "Principiante",
+    CursosInscritos: ["C12"]
+  },
+  {
+    id_estudiante: "E8",
+    Nombre: "Mariana Ortiz",
+    Cedula: "89012345",
+    Telefono: "3278901234",
+    CorreoElectronico: "mariana.ortiz@email.com",
+    NivelMusical: "Intermedio",
+    CursosInscritos: ["C13"]
+  },
+  {
+    id_estudiante: "E9",
+    Nombre: "Esteban Silva",
+    Cedula: "90123456",
+    Telefono: "3289012345",
+    CorreoElectronico: "esteban.silva@email.com",
+    NivelMusical: "Avanzado",
+    CursosInscritos: ["C14"]
+  },
+  {
+    id_estudiante: "E10",
+    Nombre: "Natalia Castro",
+    Cedula: "10234567",
+    Telefono: "3290123456",
+    CorreoElectronico: "natalia.castro@email.com",
+    NivelMusical: "Principiante",
+    CursosInscritos: ["C15"]
+  },
+  {
+    id_estudiante: "E11",
+    Nombre: "Felipe Ramírez",
+    Cedula: "11234568",
+    Telefono: "3301234567",
+    CorreoElectronico: "felipe.ramirez@email.com",
+    NivelMusical: "Intermedio",
+    CursosInscritos: ["C1", "C11"]
+  },
+  {
+    id_estudiante: "E12",
+    Nombre: "Gabriela Torres",
+    Cedula: "12234569",
+    Telefono: "3312345678",
+    CorreoElectronico: "gabriela.torres@email.com",
+    NivelMusical: "Avanzado",
+    CursosInscritos: ["C2", "C12"]
+  },
+  {
+    id_estudiante: "E13",
+    Nombre: "David Mendoza",
+    Cedula: "13234570",
+    Telefono: "3323456789",
+    CorreoElectronico: "david.mendoza@email.com",
+    NivelMusical: "Principiante",
+    CursosInscritos: ["C3", "C13"]
+  },
+  {
+    id_estudiante: "E14",
+    Nombre: "Isabella Ríos",
+    Cedula: "14234571",
+    Telefono: "3334567890",
+    CorreoElectronico: "isabella.rios@email.com",
+    NivelMusical: "Intermedio",
+    CursosInscritos: ["C4", "C14"]
+  },
+  {
+    id_estudiante: "E15",
+    Nombre: "Sebastián Vega",
+    Cedula: "15234572",
+    Telefono: "3345678901",
+    CorreoElectronico: "sebastian.vega@email.com",
+    NivelMusical: "Avanzado",
+    CursosInscritos: ["C5", "C15"]
+  }
+]);
+
+// 6. Insertar usuarios
+db.usuarios.insertMany([
+  // Administradores
+  {
+    id_usuario: "U1",
+    Nombre: "Admin Principal",
+    Correo: "admin@musicacampus.com",
+    Contrasena: "Admin1234",
+    Rol: "Administrador"
+  },
+  // Empleados (Profesores)
+  {
+    id_usuario: "U2",
+    Nombre: "Carlos Rodríguez",
+    Correo: "carlos.rodriguez@musicacampus.com",
+    Contrasena: "Profesor123",
+    Rol: "Empleado"
+  },
+  {
+    id_usuario: "U3",
+    Nombre: "María González",
+    Correo: "maria.gonzalez@musicacampus.com",
+    Contrasena: "Profesor123",
+    Rol: "Empleado"
+  },
+  {
+    id_usuario: "U4",
+    Nombre: "Javier López",
+    Correo: "javier.lopez@musicacampus.com",
+    Contrasena: "Profesor123",
+    Rol: "Empleado"
+  },
+  {
+    id_usuario: "U5",
+    Nombre: "Ana Martínez",
+    Correo: "ana.martinez@musicacampus.com",
+    Contrasena: "Profesor123",
+    Rol: "Empleado"
+  },
+  {
+    id_usuario: "U6",
+    Nombre: "Pedro Sánchez",
+    Correo: "pedro.sanchez@musicacampus.com",
+    Contrasena: "Profesor123",
+    Rol: "Empleado"
+  },
+  // Estudiantes
+  {
+    id_usuario: "U7",
+    Nombre: "Andrés Castillo",
+    Correo: "andres.castillo@email.com",
+    Contrasena: "Estudiante123",
+    Rol: "Estudiante"
+  },
+  {
+    id_usuario: "U8",
+    Nombre: "Carolina Méndez",
+    Correo: "carolina.mendez@email.com",
+    Contrasena: "Estudiante123",
+    Rol: "Estudiante"
+  },
+  {
+    id_usuario: "U9",
+    Nombre: "Miguel Ángel Rojas",
+    Correo: "miguel.rojas@email.com",
+    Contrasena: "Estudiante123",
+    Rol: "Estudiante"
+  },
+  {
+    id_usuario: "U10",
+    Nombre: "Daniela Pérez",
+    Correo: "daniela.perez@email.com",
+    Contrasena: "Estudiante123",
+    Rol: "Estudiante"
+  },
+  {
+    id_usuario: "U11",
+    Nombre: "Juan David Gómez",
+    Correo: "juan.gomez@email.com",
+    Contrasena: "Estudiante123",
+    Rol: "Estudiante"
+  },
+  {
+    id_usuario: "U12",
+    Nombre: "Valentina Cruz",
+    Correo: "valentina.cruz@email.com",
+    Contrasena: "Estudiante123",
+    Rol: "Estudiante"
+  },
+  {
+    id_usuario: "U13",
+    Nombre: "Santiago Morales",
+    Correo: "santiago.morales@email.com",
+    Contrasena: "Estudiante123",
+    Rol: "Estudiante"
+  },
+  {
+    id_usuario: "U14",
+    Nombre: "Mariana Ortiz",
+    Correo: "mariana.ortiz@email.com",
+    Contrasena: "Estudiante123",
+    Rol: "Estudiante"
+  },
+  {
+    id_usuario: "U15",
+    Nombre: "Esteban Silva",
+    Correo: "esteban.silva@email.com",
+    Contrasena: "Estudiante123",
+    Rol: "Estudiante"
+  },
+  {
+    id_usuario: "U16",
+    Nombre: "Natalia Castro",
+    Correo: "natalia.castro@email.com",
+    Contrasena: "Estudiante123",
+    Rol: "Estudiante"
+  }
+]);
+
+// 7. Insertar inscripciones
+db.inscripciones.insertMany([
+  {
+    id_inscripcion: "I1",
+    Estudiante: "E1",
+    Curso: "C1",
+    Sede: "S1",
+    Profesor: "P1",
+    Costo: 800000,
+    Fecha: new Date("2024-01-15")
+  },
+  {
+    id_inscripcion: "I2",
+    Estudiante: "E1",
+    Curso: "C6",
+    Sede: "S2",
+    Profesor: "P1",
+    Costo: 780000,
+    Fecha: new Date("2024-01-20")
+  },
+  {
+    id_inscripcion: "I3",
+    Estudiante: "E2",
+    Curso: "C2",
+    Sede: "S1",
+    Profesor: "P2",
+    Costo: 1200000,
+    Fecha: new Date("2024-01-18")
+  },
+  {
+    id_inscripcion: "I4",
+    Estudiante: "E2",
+    Curso: "C7",
+    Sede: "S2",
+    Profesor: "P2",
+    Costo: 1250000,
+    Fecha: new Date("2024-01-22")
+  },
+  {
+    id_inscripcion: "I5",
+    Estudiante: "E3",
+    Curso: "C3",
+    Sede: "S1",
+    Profesor: "P3",
+    Costo: 950000,
+    Fecha: new Date("2024-01-16")
+  },
+  {
+    id_inscripcion: "I6",
+    Estudiante: "E3",
+    Curso: "C8",
+    Sede: "S2",
+    Profesor: "P3",
+    Costo: 920000,
+    Fecha: new Date("2024-01-21")
+  },
+  {
+    id_inscripcion: "I7",
+    Estudiante: "E4",
+    Curso: "C4",
+    Sede: "S1",
+    Profesor: "P4",
+    Costo: 850000,
+    Fecha: new Date("2024-01-17")
+  },
+  {
+    id_inscripcion: "I8",
+    Estudiante: "E4",
+    Curso: "C9",
+    Sede: "S2",
+    Profesor: "P4",
+    Costo: 820000,
+    Fecha: new Date("2024-01-23")
+  },
+  {
+    id_inscripcion: "I9",
+    Estudiante: "E5",
+    Curso: "C5",
+    Sede: "S1",
+    Profesor: "P5",
+    Costo: 700000,
+    Fecha: new Date("2024-01-19")
+  },
+  {
+    id_inscripcion: "I10",
+    Estudiante: "E5",
+    Curso: "C10",
+    Sede: "S2",
+    Profesor: "P5",
+    Costo: 1100000,
+    Fecha: new Date("2024-01-24")
+  },
+  {
+    id_inscripcion: "I11",
+    Estudiante: "E6",
+    Curso: "C11",
+    Sede: "S3",
+    Profesor: "P6",
+    Costo: 750000,
+    Fecha: new Date("2024-01-25")
+  },
+  {
+    id_inscripcion: "I12",
+    Estudiante: "E7",
+    Curso: "C12",
+    Sede: "S3",
+    Profesor: "P7",
+    Costo: 980000,
+    Fecha: new Date("2024-01-26")
+  },
+  {
+    id_inscripcion: "I13",
+    Estudiante: "E8",
+    Curso: "C13",
+    Sede: "S3",
+    Profesor: "P8",
+    Costo: 1180000,
+    Fecha: new Date("2024-01-27")
+  },
+  {
+    id_inscripcion: "I14",
+    Estudiante: "E9",
+    Curso: "C14",
+    Sede: "S3",
+    Profesor: "P9",
+    Costo: 830000,
+    Fecha: new Date("2024-01-28")
+  },
+  {
+    id_inscripcion: "I15",
+    Estudiante: "E10",
+    Curso: "C15",
+    Sede: "S3",
+    Profesor: "P10",
+    Costo: 890000,
+    Fecha: new Date("2024-01-29")
+  },
+  {
+    id_inscripcion: "I16",
+    Estudiante: "E11",
+    Curso: "C1",
+    Sede: "S1",
+    Profesor: "P1",
+    Costo: 800000,
+    Fecha: new Date("2024-01-30")
+  },
+  {
+    id_inscripcion: "I17",
+    Estudiante: "E11",
+    Curso: "C11",
+    Sede: "S3",
+    Profesor: "P6",
+    Costo: 750000,
+    Fecha: new Date("2024-02-01")
+  },
+  {
+    id_inscripcion: "I18",
+    Estudiante: "E12",
+    Curso: "C2",
+    Sede: "S1",
+    Profesor: "P2",
+    Costo: 1200000,
+    Fecha: new Date("2024-02-02")
+  },
+  {
+    id_inscripcion: "I19",
+    Estudiante: "E12",
+    Curso: "C12",
+    Sede: "S3",
+    Profesor: "P7",
+    Costo: 980000,
+    Fecha: new Date("2024-02-03")
+  },
+  {
+    id_inscripcion: "I20",
+    Estudiante: "E13",
+    Curso: "C3",
+    Sede: "S1",
+    Profesor: "P3",
+    Costo: 950000,
+    Fecha: new Date("2024-02-04")
+  },
+  {
+    id_inscripcion: "I21",
+    Estudiante: "E13",
+    Curso: "C13",
+    Sede: "S3",
+    Profesor: "P8",
+    Costo: 1180000,
+    Fecha: new Date("2024-02-05")
+  },
+  {
+    id_inscripcion: "I22",
+    Estudiante: "E14",
+    Curso: "C4",
+    Sede: "S1",
+    Profesor: "P4",
+    Costo: 850000,
+    Fecha: new Date("2024-02-06")
+  },
+  {
+    id_inscripcion: "I23",
+    Estudiante: "E14",
+    Curso: "C14",
+    Sede: "S3",
+    Profesor: "P9",
+    Costo: 830000,
+    Fecha: new Date("2024-02-07")
+  },
+  {
+    id_inscripcion: "I24",
+    Estudiante: "E15",
+    Curso: "C5",
+    Sede: "S1",
+    Profesor: "P5",
+    Costo: 700000,
+    Fecha: new Date("2024-02-08")
+  },
+  {
+    id_inscripcion: "I25",
+    Estudiante: "E15",
+    Curso: "C15",
+    Sede: "S3",
+    Profesor: "P10",
+    Costo: 890000,
+    Fecha: new Date("2024-02-09")
+  },
+  {
+    id_inscripcion: "I26",
+    Estudiante: "E1",
+    Curso: "C11",
+    Sede: "S3",
+    Profesor: "P6",
+    Costo: 750000,
+    Fecha: new Date("2024-02-10")
+  },
+  {
+    id_inscripcion: "I27",
+    Estudiante: "E2",
+    Curso: "C12",
+    Sede: "S3",
+    Profesor: "P7",
+    Costo: 980000,
+    Fecha: new Date("2024-02-11")
+  },
+  {
+    id_inscripcion: "I28",
+    Estudiante: "E3",
+    Curso: "C13",
+    Sede: "S3",
+    Profesor: "P8",
+    Costo: 1180000,
+    Fecha: new Date("2024-02-12")
+  },
+  {
+    id_inscripcion: "I29",
+    Estudiante: "E4",
+    Curso: "C14",
+    Sede: "S3",
+    Profesor: "P9",
+    Costo: 830000,
+    Fecha: new Date("2024-02-13")
+  },
+  {
+    id_inscripcion: "I30",
+    Estudiante: "E5",
+    Curso: "C15",
+    Sede: "S3",
+    Profesor: "P10",
+    Costo: 890000,
+    Fecha: new Date("2024-02-14")
+  }
+]);
+
+// 8. Insertar reservas
+db.reservas.insertMany([
+  {
+    id_reserva: "R1",
+    Instrumento: "INS1",
+    Estudiante: {
+      id_estudiante: "E1",
+      Nombre: "Andrés Castillo",
+      Telefono: "3201234567"
+    },
+    Estado: "Confirmada",
+    Fecha: new Date("2024-02-15")
+  },
+  {
+    id_reserva: "R2",
+    Instrumento: "INS6",
+    Estudiante: {
+      id_estudiante: "E2",
+      Nombre: "Carolina Méndez",
+      Telefono: "3212345678"
+    },
+    Estado: "Pendiente",
+    Fecha: new Date("2024-02-16")
+  },
+  {
+    id_reserva: "R3",
+    Instrumento: "INS11",
+    Estudiante: {
+      id_estudiante: "E3",
+      Nombre: "Miguel Ángel Rojas",
+      Telefono: "3223456789"
+    },
+    Estado: "Confirmada",
+    Fecha: new Date("2024-02-17")
+  },
+  {
+    id_reserva: "R4",
+    Instrumento: "INS16",
+    Estudiante: {
+      id_estudiante: "E4",
+      Nombre: "Daniela Pérez",
+      Telefono: "3234567890"
+    },
+    Estado: "Cancelada",
+    Fecha: new Date("2024-02-18")
+  },
+  {
+    id_reserva: "R5",
+    Instrumento: "INS2",
+    Estudiante: {
+      id_estudiante: "E5",
+      Nombre: "Juan David Gómez",
+      Telefono: "3245678901"
+    },
+    Estado: "Finalizada",
+    Fecha: new Date("2024-02-19")
+  },
+  {
+    id_reserva: "R6",
+    Instrumento: "INS7",
+    Estudiante: {
+      id_estudiante: "E6",
+      Nombre: "Valentina Cruz",
+      Telefono: "3256789012"
+    },
+    Estado: "Confirmada",
+    Fecha: new Date("2024-02-20")
+  },
+  {
+    id_reserva: "R7",
+    Instrumento: "INS12",
+    Estudiante: {
+      id_estudiante: "E7",
+      Nombre: "Santiago Morales",
+      Telefono: "3267890123"
+    },
+    Estado: "Pendiente",
+    Fecha: new Date("2024-02-21")
+  },
+  {
+    id_reserva: "R8",
+    Instrumento: "INS17",
+    Estudiante: {
+      id_estudiante: "E8",
+      Nombre: "Mariana Ortiz",
+      Telefono: "3278901234"
+    },
+    Estado: "Confirmada",
+    Fecha: new Date("2024-02-22")
+  },
+  {
+    id_reserva: "R9",
+    Instrumento: "INS3",
+    Estudiante: {
+      id_estudiante: "E9",
+      Nombre: "Esteban Silva",
+      Telefono: "3289012345"
+    },
+    Estado: "Cancelada",
+    Fecha: new Date("2024-02-23")
+  },
+  {
+    id_reserva: "R10",
+    Instrumento: "INS8",
+    Estudiante: {
+      id_estudiante: "E10",
+      Nombre: "Natalia Castro",
+      Telefono: "3290123456"
+    },
+    Estado: "Finalizada",
+    Fecha: new Date("2024-02-24")
+  }
+]);
+
+print("Datos de prueba insertados exitosamente!");
